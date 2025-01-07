@@ -7,13 +7,15 @@ from project_stats.file_utils import load_ignore_patterns, should_ignore
 
 def convert_to_pinyin_and_symbols(content):
     """
-    Convert Chinese characters in the content to pinyin.
+    Convert Chinese characters in the content to pinyin and split the pinyin into individual letters.
     Non-Chinese characters, including symbols, are kept unchanged.
     """
     result = []
     for char in content:
         if '\u4e00' <= char <= '\u9fff':  # Check if the character is Chinese
-            result.extend(lazy_pinyin(char))
+            # Convert the Chinese character to pinyin and split the pinyin into individual letters
+            pinyin = lazy_pinyin(char)[0]  # Get the pinyin string for the character
+            result.extend(list(pinyin))  # Split the pinyin into individual letters and add to the result
         elif char in string.ascii_letters:  # Keep alphabetic characters
             result.append(char.lower())
         elif char in string.punctuation or not char.isspace():  # Include symbols
@@ -32,7 +34,6 @@ def count_characters_in_project(directory, ignore_file):
     for root, dirs, files in os.walk(directory):
         # Exclude ignored directories
         dirs[:] = [d for d in dirs if not should_ignore(os.path.join(root, d), ignore_patterns)]
-
         for file in files:
             file_path = os.path.join(root, file)
             # Exclude ignored files

@@ -1,2 +1,2 @@
-DEFAULT_IGNORE_FILE = "ignore.txt"
+DEFAULT_IGNORE_FILE = "../ignore.txt"
 DEFAULT_ANALYZE_DIR = "./"

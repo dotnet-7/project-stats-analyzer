@@ -11,6 +11,8 @@ def load_ignore_patterns(ignore_file):
                 rule = line.strip()
                 if rule and not rule.startswith('#'):
                     ignore_patterns.append(rule)
+    else:
+        print(f"Ignore file not found: {ignore_file}")
     return ignore_patterns
 
 def should_ignore(file_path, ignore_patterns):
